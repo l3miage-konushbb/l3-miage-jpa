@@ -5,8 +5,11 @@ import java.util.List;
 // TODO ajouter une named query pour une des requêtes à faire dans le repository
 public class Teacher extends Person {
 
+    @ManyToOne
     private Subject teaching;
+    @OneToMany
     private List<Student> favorites;
+    @OneToOne
     private GraduationClass heading;
 
     public Subject getTeaching() {

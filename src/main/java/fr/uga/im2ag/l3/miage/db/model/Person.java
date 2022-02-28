@@ -1,13 +1,19 @@
 package fr.uga.im2ag.l3.miage.db.model;
-
+import javax.persistence.*;
 import java.util.Date;
 
 public abstract class Person {
 
+    @Id
+    @GeneratedValue
     private Long id;
+    @Column(nullable = false)
     private Gender gender;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false, unique = true)
     private String lastName;
+    @Column(nullable = true)
     private Date birth;
 
     public Long getId() {
