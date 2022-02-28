@@ -22,8 +22,18 @@ class GradeTest extends Base {
     }
 
     @Test
-    void shouldSaveGrade() {
-        // TODO
+    void shouldSaveGrade(Subject subject) {
+        final var grade = Fixtures.createGrade(subject);
+
+        entityManager.getTransaction().begin();
+        subjectRepository.save(grade);
+        entityManager.getTransaction().commit();
+        entityManager.detach(grade);
+
+        var pGrade = gradeRepository.findById(grade.getId());
+        assertThat(pGrade).isNotNull().isNotSameAs(grade);
+        assertThat(pGrade.getName()).isEqualTo(grade.getName());
+
     }
 
     @Test
@@ -37,8 +47,8 @@ class GradeTest extends Base {
     }
 
     @Test
-    void shouldFindHighestGradesBySubject() {
-        // TODO
+    Collection<Teacher>  shouldFindHighestGradesBySubject(int limit, Subject subject) {
+        return gradeRepository.findHighestGradesBySubject(limit, subject);
     }
 
 }

@@ -23,13 +23,22 @@ class GraduationClassTest extends Base {
 
     @Test
     void shouldSaveClass() {
-        // TODO
+        final var classe = Fixtures.createClass();
+
+        entityManager.getTransaction().begin();
+        subjectRepository.save(classe);
+        entityManager.getTransaction().commit();
+        entityManager.detach(classe);
+
+        var pClass = classRepository.findById(classe.getId());
+        assertThat(pClass).isNotNull().isNotSameAs(classe);
+        assertThat(pClass.getName()).isEqualTo(classe.getName());
     }
 
 
     @Test
-    void shouldFindByYearAndName() {
-        // TODO
+    GraduationClass shouldFindByYearAndName(Integer year, String name) {
+        return classRepository.findByYearAndName(year, name);
     }
 
 }
