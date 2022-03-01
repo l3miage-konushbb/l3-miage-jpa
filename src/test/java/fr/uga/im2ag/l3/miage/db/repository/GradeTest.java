@@ -1,9 +1,17 @@
 package fr.uga.im2ag.l3.miage.db.repository;
 
+import fr.uga.im2ag.l3.miage.db.model.Grade;
+import fr.uga.im2ag.l3.miage.db.model.Subject;
+import fr.uga.im2ag.l3.miage.db.model.Teacher;
 import fr.uga.im2ag.l3.miage.db.repository.api.GradeRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Collection;
+import java.util.List;
 
 class GradeTest extends Base {
 
@@ -26,13 +34,13 @@ class GradeTest extends Base {
         final var grade = Fixtures.createGrade(subject);
 
         entityManager.getTransaction().begin();
-        subjectRepository.save(grade);
+        gradeRepository.save(grade);
         entityManager.getTransaction().commit();
         entityManager.detach(grade);
 
         var pGrade = gradeRepository.findById(grade.getId());
         assertThat(pGrade).isNotNull().isNotSameAs(grade);
-        assertThat(pGrade.getName()).isEqualTo(grade.getName());
+        assertThat(pGrade.getSubject()).isEqualTo(grade.getSubject());
 
     }
 
@@ -47,7 +55,7 @@ class GradeTest extends Base {
     }
 
     @Test
-    Collection<Teacher>  shouldFindHighestGradesBySubject(int limit, Subject subject) {
+    List<Grade>  shouldFindHighestGradesBySubject(int limit, Subject subject) {
         return gradeRepository.findHighestGradesBySubject(limit, subject);
     }
 
