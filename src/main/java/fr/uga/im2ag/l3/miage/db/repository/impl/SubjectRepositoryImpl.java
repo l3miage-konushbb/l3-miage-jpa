@@ -5,6 +5,11 @@ import fr.uga.im2ag.l3.miage.db.model.Subject;
 import fr.uga.im2ag.l3.miage.db.model.Teacher;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.From;
+
+import org.hibernate.sql.Select;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -27,14 +32,16 @@ public class SubjectRepositoryImpl extends BaseRepositoryImpl implements Subject
 
     @Override
     public Subject findById(Long id) {
-        // TODO
-        return null;
+        Subject subject = entityManager.find(Subject.class, id);
+        if(subject == null){
+            throw new EntityNotFoundException("Can't find id");
+        }
+        return subject;
     }
 
     @Override
-    public List<Subject> getAll() {
-        // TODO
-        return null;
+    public List<Subject> getAll() { 
+        return entityManager.createQuery("SELECT * FROM Subject", Subject.class).getResultList();
     }
 
     @Override
